@@ -1,0 +1,12 @@
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
+    background-color: #2d2f93;
+    color: #fff;
+}
+
+.bg-primary {
+    background-color: #2d2f93!important;
+}
+
+.card-primary:not(.card-outline)>.card-header {
+    background-color: #2d2f93;
+}
