@@ -292,6 +292,10 @@ Route::get('/home', function(){
     return view("home");
 })->middleware("auth");
 
+Route::get('/change_photo', function() {
+    return view('ganti_foto');
+})->middleware('auth');
+
 Route::get('/statistik',[HomeController::class, 'dashboard_statistik']);
 Route::get('/progres_suara',[HomeController::class, 'dashboard_progres_suara']);
 Route::get('/perolehan_suara',[HomeController::class, 'dashboard_perolehan_suara']);

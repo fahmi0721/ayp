@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Database\QueryException;
 
 use DataTables;
@@ -204,6 +205,65 @@ class UserController extends Controller
             if(!empty($request->id_desa)){
                 $pushdata += array("id_tps" => $request->id_tps);
             }
+            DB::table($this->table)->where("id",$this->pk_table)->update($pushdata);
+            DB::commit();
+            return response()->json(['status'=>'success','messages'=>'success'], 200);
+        } catch(QueryException $e) { 
+            DB::rollback();
+            return response()->json(['status'=>'error','messages'=> $e->errorInfo[2] ], 400);
+        }
+    }
+
+    private function uploadImg($request,$filename,$folder){
+        if(!File::exists("dokumen-file")){
+            File::makeDirectory(public_path("dokumen-file"), 0777, true, true);
+        }
+
+        if(!File::exists("dokumen-file/gambar_".$folder)){
+            File::makeDirectory(public_path("dokumen-file/gambar_".$folder), 0777, true, true);
+        }
+        $request->foto->move(public_path("dokumen-file/gambar_".$folder."/"),$filename);
+        return "dokumen-file/gambar_".$folder."/".$filename;
+
+    }
+
+    private function del_temp_image($filename){
+        if(File::exists($filename) && !empty($filename)){
+            File::delete($filename);
+        }
+        return true;
+    }
+    
+    public function update_foto(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+            'foto' => 'required|mimes:jpeg,png,jpg,gif,svg',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                "status"    => "warning",
+                "messages"   => $validator->errors()->first(),
+            ], 400);
+        }
+        DB::beginTransaction();
+        try {
+            $this->pk_table = base64_decode($request->id);
+            $temp_data = DB::table($this->table)->select("foto")->where("id",$this->pk_table)->first();
+            $filename = "foto_".time().".".$request->foto->extension();
+            $folder = "foto";
+            $foto = $this->uploadImg($request,$filename,$folder);
+            if(!$foto){
+                return response()->json([
+                    "status"    => "warning",
+                    "messages"   => "Terjadi kesalahan mengupload dokumen",
+                ], 400);
+            }
+            $this->del_temp_image($temp_data->foto);
+            $pushdata = array(
+                "foto" => $foto
+            );
             DB::table($this->table)->where("id",$this->pk_table)->update($pushdata);
             DB::commit();
             return response()->json(['status'=>'success','messages'=>'success'], 200);

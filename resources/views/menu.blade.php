@@ -5,7 +5,7 @@
           with font-awesome or any other icon font library -->
 
     <li class="nav-item">
-      <a href="{{ url('/') }}" class="nav-link @if(Request::segment(2) == '') active @endif">
+      <a href="{{ url('/') }}" class="nav-link @if(Request::segment(2) == '' && Request::segment(1) != 'change_photo') active @endif">
         <i class="nav-icon fas fa-tachometer-alt"></i>
         <p>Dashboard</p>
       </a>
@@ -214,5 +214,11 @@
       </a>
     </li>
     @endif
+    <li class="nav-item">
+      <a href="{{ url('change_photo') }}" class="nav-link  @if(Request::segment(1) == 'change_photo') active @endif">
+        <i class="nav-icon fas fa-solid fa-image"></i>
+        <p>Ganti Foto Profil</p>
+      </a>
+    </li>
   </ul>
 </nav>

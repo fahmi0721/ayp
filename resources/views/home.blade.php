@@ -93,7 +93,12 @@
       <!-- Sidebar user (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="{{ asset('dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
+          @if(file_exists(public_path(auth()->user()->foto)) && !empty(auth()->user()->foto))
+          @php $fl = auth()->user()->foto; @endphp
+          @else
+          @php $fl = 'dist/img/user2-160x160.jpg' @endphp
+          @endif
+          <img src="{{ asset($fl) }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block">{{ auth()->user()->nama }} <br> <small>User {{ ucwords(auth()->user()->level) }}</small></a>
@@ -108,7 +113,6 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    
     @yield("bardcumb")
     @yield("konten")
     

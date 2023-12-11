@@ -85,6 +85,7 @@ Route::prefix('user')->group(function () {
     Route::get('/get_data/{id}',[UserController::class, 'show']);
     Route::post('/save',[UserController::class, 'store']);
     Route::put('/update',[UserController::class, 'update']);
+    Route::put('/update_foto',[UserController::class, 'update_foto']);
     Route::delete('/delete/{id}',[UserController::class, 'destroy']);
 });
 
