@@ -70,7 +70,7 @@ class PemilihController extends Controller
         return Datatables::of($data)
         ->addIndexColumn()
         ->addColumn('action', function($row){
-            $btn = '<div class="btn-group"><a href="'.url("desa/pemilih/edit").'/'.base64_encode($row->id).'" class="btn btn-primary btn-xs"><i class="fa fa-xs fa-edit"></i></a>';
+            $btn = '<div class="btn-group"><a href="'.url("kabupaten/pemilih/edit").'/'.base64_encode($row->id).'" class="btn btn-primary btn-xs"><i class="fa fa-xs fa-edit"></i></a>';
             $btn .= '<a href="javascript:void(0)" onclick=\'hapus_data("'.base64_encode($row->id).'")\' class="btn btn-danger btn-xs"><i class="fa fa-xs fa-trash"></i></a></div>';
 
                 return $btn;
