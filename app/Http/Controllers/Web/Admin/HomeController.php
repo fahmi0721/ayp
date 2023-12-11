@@ -16,7 +16,7 @@ class HomeController extends Controller
     public function dashboard_statistik(){
         $total_tps = DB::table("m_tps")->select(DB::raw("COUNT(id) as tot"))->first();
         $total_pemilih = DB::table("t_pemilih_pasti")->select(DB::raw("COUNT(id) as tot"))->first();
-        $total_saksi = DB::table("users")->select(DB::raw("COUNT(id) as tot"))->first();
+        $total_saksi = DB::table("users")->select(DB::raw("COUNT(id) as tot"))->where("level","tps")->first();
         try {
             $data['total_tps'] = $total_tps->tot;
             $data['total_pemilih'] = $total_pemilih->tot;
