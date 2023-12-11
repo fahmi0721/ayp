@@ -216,13 +216,13 @@ class UserController extends Controller
 
     private function uploadImg($request,$filename,$folder){
         if(!File::exists("dokumen-file")){
-            File::makeDirectory(public_path("dokumen-file"), 0777, true, true);
+            File::makeDirectory("dokumen-file", 0777, true, true);
         }
 
         if(!File::exists("dokumen-file/gambar_".$folder)){
-            File::makeDirectory(public_path("dokumen-file/gambar_".$folder), 0777, true, true);
+            File::makeDirectory("dokumen-file/gambar_".$folder, 0777, true, true);
         }
-        $request->foto->move(public_path("dokumen-file/gambar_".$folder."/"),$filename);
+        $request->foto->move("dokumen-file/gambar_".$folder."/",$filename);
         return "dokumen-file/gambar_".$folder."/".$filename;
 
     }
