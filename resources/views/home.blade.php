@@ -93,7 +93,7 @@
       <!-- Sidebar user (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          @if(file_exists(public_path(auth()->user()->foto)) && !empty(auth()->user()->foto))
+          @if(file_exists(auth()->user()->foto) && !empty(auth()->user()->foto))
           @php $fl = auth()->user()->foto; @endphp
           @else
           @php $fl = 'dist/img/user2-160x160.jpg' @endphp
