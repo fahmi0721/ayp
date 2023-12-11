@@ -57,6 +57,28 @@ class PemilihController extends Controller
         ->make(true);
     }
 
+    public function index_kabupaten($id_kab){
+        $id_kabupaten = base64_decode($id_kab);
+        $data = DB::table($this->table)
+        ->join("m_kabupaten", $this->table.".id_kabupaten", "=","m_kabupaten.id")
+        ->join("m_kecamatan", $this->table.".id_kecamatan", "=","m_kecamatan.id")
+        ->join("m_desa", $this->table.".id_desa", "=","m_desa.id")
+        ->join("m_tps", $this->table.".id_tps", "=","m_tps.id")
+        ->select($this->table.".*",DB::raw("m_kabupaten.nama as kabupaten"),DB::raw("m_kecamatan.nama as kecamatan"),DB::raw("m_desa.nama as desa"),DB::raw("m_tps.nama as tps"))
+        ->where($this->table.".id_kabupaten",$id_kabupaten)
+                ->get();
+        return Datatables::of($data)
+        ->addIndexColumn()
+        ->addColumn('action', function($row){
+            $btn = '<div class="btn-group"><a href="'.url("desa/pemilih/edit").'/'.base64_encode($row->id).'" class="btn btn-primary btn-xs"><i class="fa fa-xs fa-edit"></i></a>';
+            $btn .= '<a href="javascript:void(0)" onclick=\'hapus_data("'.base64_encode($row->id).'")\' class="btn btn-danger btn-xs"><i class="fa fa-xs fa-trash"></i></a></div>';
+
+                return $btn;
+        })
+        ->rawColumns(['action'])
+        ->make(true);
+    }
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [

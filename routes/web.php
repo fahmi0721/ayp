@@ -110,6 +110,21 @@ Route::prefix('kabupaten')->middleware("auth")->group(function () {
         });
         ;
     });
+
+    Route::prefix('pemilih')->group(function () {
+        Route::get("/", function (){
+            return view("kabupaten.pemilih.index");
+        });
+        Route::get("/tambah", function (){
+            $kecamatans = DB::table("m_kecamatan")->select("id","nama")->where("id_kabupaten",auth()->user()->id_kabupaten)->get();
+            return view("kabupaten.pemilih.tambah",compact("kecamatans"));
+        });
+        Route::get("/edit/{id}", function (){
+            $kecamatans = DB::table("m_kecamatan")->select("id","nama")->where("id_kabupaten",auth()->user()->id_kabupaten)->get();
+            return view("kabupaten.pemilih.edit",compact("kecamatans"));
+        });
+    });
+
     Route::prefix('users')->group(function () {
         Route::get("/", function (){
             return view("kabupaten.users.index");

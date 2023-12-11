@@ -100,6 +100,7 @@ Route::prefix('kandidat')->group(function () {
 Route::prefix('pemilih-pasti')->group(function () {
     Route::get('/',[PemilihController::class, 'index']);
     Route::get('/desa/{id}',[PemilihController::class, 'index_desa']);
+    Route::get('/kabupaten/{id}',[PemilihController::class, 'index_kabupaten']);
     Route::get('/get_data/{id}',[PemilihController::class, 'show']);
     Route::post('/save',[PemilihController::class, 'store']);
     Route::put('/update',[PemilihController::class, 'update']);

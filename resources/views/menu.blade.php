@@ -119,6 +119,13 @@
     </li>
 
     <li class="nav-item">
+      <a href="{{ url('kabupaten/pemilih') }}" class="nav-link @if(Request::segment(2) == 'pemilih') active @endif">
+        <i class="nav-icon fas fa-solid fa-person-booth"></i>
+        <p>Pemilih Pasti</p>
+      </a><i class="fa-solid fa-check-to-slot"></i>
+    </li><i class="fa-light fa-boxes-stacked"></i>
+
+    <li class="nav-item">
       <a href="{{ url('kabupaten/suara') }}" class="nav-link  @if(Request::segment(2) == 'suara') active @endif">
         <i class="nav-icon fas fa-solid fa-box-tissue"></i>
         <p>Suara TPS</p>
