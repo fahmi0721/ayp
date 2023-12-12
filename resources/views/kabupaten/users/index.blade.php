@@ -45,6 +45,7 @@
                             <th>No KTP</th>
                             <th>Nama</th>
                             <th>Username</th>
+                            <th>No HP</th>
                             <th>Level</th>
                             <th>Kecamatan</th>
                             <th>Desa / Kelurahan</th>
@@ -80,6 +81,7 @@
                 { data: 'no_ktp', name: 'no_ktp' },
                 { data: 'nama', name: 'nama' },
                 { data: 'username', name: 'username' },
+                { data: 'no_hp', name: 'no_hp' },
                 { data: 'level', name: 'level' },
                 { data: 'kecamatan', name: 'kecamatan' },
                 { data: 'desa', name: 'desa' },

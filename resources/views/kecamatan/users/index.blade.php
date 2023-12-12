@@ -45,6 +45,7 @@
                             <th>No KTP</th>
                             <th>Nama</th>
                             <th>Username</th>
+                            <th>No HP</th>
                             <th>Level</th>
                             <th>Desa / Kelurahan</th>
                             <th>TPS</th>
@@ -79,6 +80,7 @@
                 { data: 'no_ktp', name: 'no_ktp' },
                 { data: 'nama', name: 'nama' },
                 { data: 'username', name: 'username' },
+                { data: 'no_hp', name: 'no_hp' },
                 { data: 'level', name: 'level' },
                 { data: 'desa', name: 'desa' },
                 { data: 'tps', name: 'tps' },
