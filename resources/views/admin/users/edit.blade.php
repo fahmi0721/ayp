@@ -51,6 +51,11 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="no_hp" autocomplete=off class='control-label'>No HP <span class='text-danger'>*</span></label>
+                    <input type="text" placeholder="Entri No HP" name='no_hp' id='no_hp' class='form-control FormIsi'>
+                </div>
+
+                <div class="form-group">
                     <label for="username" autocomplete=off class='control-label'>Username <span class='text-danger'>*</span></label>
                     <input type="text" placeholder="Entri Username" name='username' id='username' class='form-control FormIsi'>
                 </div>
@@ -229,6 +234,7 @@
             success: function(data){
                 $("#id").val(id_data);
                 $("#nama").val(data.data.nama)
+                $("#no_hp").val(data.data.no_hp)
                 $("#no_ktp").val(data.data.no_ktp)
                 $("#username").val(data.data.username)
                 $("#alamat").val(data.data.alamat)

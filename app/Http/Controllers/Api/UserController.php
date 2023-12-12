@@ -104,6 +104,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'no_ktp' => 'required|min:16|max:16|unique:users,no_ktp',
             'nama' => 'required',
+            'no_hp' => 'required|min:10|max:16',
             'username' => 'required|unique:users,username',
             'password' => 'required',
             'level' => 'required',
@@ -121,6 +122,7 @@ class UserController extends Controller
         try {
             $pushdata = array(
                 "nama" => $request->nama,
+                "no_hp" => $request->no_hp,
                 "username" => $request->username,
                 "password" => Hash::make($request->password),
                 "level" => $request->level,
@@ -168,6 +170,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'no_ktp' => 'required|min:16|max:16|unique:users,no_ktp,'.base64_decode($request->id),
             'nama' => 'required',
+            'no_hp' => 'required|min:10|max:16',
             'username' => 'required|unique:users,username,'.base64_decode($request->id),
             'level' => 'required',
             'alamat' => 'required',
@@ -186,6 +189,7 @@ class UserController extends Controller
                 "no_ktp" => $request->no_ktp,
                 "username" => $request->username,
                 "nama" => $request->nama,
+                "no_hp" => $request->no_hp,
                 "level" => $request->level,
                 "alamat" => $request->alamat,
                 "updated_at" => Carbon::now()
