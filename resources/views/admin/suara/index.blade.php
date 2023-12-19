@@ -132,6 +132,68 @@
         });
     }
 
+    function update_status(id,status){
+        var msg = status == "invalid" ? "Do you want to unapprove data?" : "Do you want to approve data?";
+        Swal.fire({
+            title: msg,
+            showCancelButton: true,
+            confirmButtonText: "Yes",
+            }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                $.ajax({
+                    type	: "POST",
+                    dataType: "json",
+                    url		: "{{ url('api/suara/approve') }}",
+                    data	: "_method=PUT&_token="+tokenCSRF+"&status="+status+"&id="+id,
+                    success	:function(data) {
+                        console.log(data);
+                        var Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 1000
+                            });
+                        Toast.fire({
+                            icon: data.status,
+                            title: data.messages
+                        }).then((result) => {
+                            var table = $('#TableData').DataTable();
+                            load_notif();
+                            table.ajax.reload(null, false);  
+                        })
+                       
+                    },
+                    error: function(er){
+                        console.log(er)
+                        if(er.responseJSON.status){
+                            var Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 1000
+                            });
+                            Toast.fire({
+                                icon: er.responseJSON.status,
+                                title: er.responseJSON.messages
+                            })
+                        }else{
+                            var Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 1000
+                            });
+                            Toast.fire({
+                                icon: "warning",
+                                title: er.responseJSON.message
+                            })
+                        }
+                    }
+                });
+            }
+        });
+    }
     
 </script>
 @endsection

@@ -29,7 +29,7 @@ class HomeController extends Controller
 
     public function dashboard_progres_suara(){
         $suara_masuk_tps = DB::table(DB::raw('t_suara_tps a'))->join(DB::raw('m_kandidat b'),"a.id_kandidat","=","b.id")->where(DB::raw("b.kategori"),"caleg")->where(DB::raw("a.status"),"valid")->distinct()->count(DB::raw("a.id_tps"));
-        $tot_tps = DB::table("m_tps")->distinct()->count("id");
+        $tot_tps = DB::table("users")->where("level","tps")->distinct()->count("id");
         try {
             $data['total_suara_mausk'] = ($suara_masuk_tps/$tot_tps)*100;
             $data['total_suara_belum_mausk'] = $tot_tps == $suara_masuk_tps ? 0 : (($tot_tps - $suara_masuk_tps) / $tot_tps) * 100;

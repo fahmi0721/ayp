@@ -45,6 +45,8 @@ class SuaraController extends Controller
                 $btn .= '<a href="javascript:void(0)" onclick=\'hapus_data("'.base64_encode($row->id).'")\' class="btn btn-danger btn-xs"><i class="fa fa-xs fa-trash"></i></a></div>';
             }elseif($row->status == "invalid"){
                 $btn .= '<a href="javascript:void(0)" onclick=\'hapus_data("'.base64_encode($row->id).'")\' class="btn btn-danger btn-xs"><i class="fa fa-xs fa-trash"></i></a></div>';
+            }else{
+                $btn .= '<a href="javascript:void(0)" onclick=\'update_status("'.base64_encode($row->id).'","invalid")\' title="Batalkan" data-toggle="tooltip" class="btn btn-danger btn-xs"><i class="fa fa-xs fa-times"></i></a></div>';
             }
                 return $btn;
         })
@@ -215,13 +217,13 @@ class SuaraController extends Controller
 
     private function uploadImg($request,$filename,$folder){
         if(!File::exists("dokumen-file")){
-            File::makeDirectory(public_path("dokumen-file"), 0777, true, true);
+            File::makeDirectory("dokumen-file", 0777, true, true);
         }
 
         if(!File::exists("dokumen-file/gambar_".$folder)){
-            File::makeDirectory(public_path("dokumen-file/gambar_".$folder), 0777, true, true);
+            File::makeDirectory("dokumen-file/gambar_".$folder, 0777, true, true);
         }
-        $request->bukti->move(public_path("dokumen-file/gambar_".$folder."/"),$filename);
+        $request->bukti->move("dokumen-file/gambar_".$folder."/",$filename);
         return "dokumen-file/gambar_".$folder."/".$filename;
 
     }
