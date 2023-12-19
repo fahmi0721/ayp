@@ -31,8 +31,8 @@ class HomeController extends Controller
         $suara_masuk_tps = DB::table(DB::raw('t_suara_tps a'))->join(DB::raw('m_kandidat b'),"a.id_kandidat","=","b.id")->where(DB::raw("b.kategori"),"caleg")->where(DB::raw("a.status"),"valid")->distinct()->count(DB::raw("a.id_tps"));
         $tot_tps = DB::table("users")->where("level","tps")->distinct()->count("id");
         try {
-            $data['total_suara_mausk'] = ($suara_masuk_tps/$tot_tps)*100;
-            $data['total_suara_belum_mausk'] = $tot_tps == $suara_masuk_tps ? 0 : (($tot_tps - $suara_masuk_tps) / $tot_tps) * 100;
+            $data['total_suara_mausk'] = $tot_tps > 0 ? ($suara_masuk_tps/$tot_tps)*100 : 0;
+            $data['total_suara_belum_mausk'] = $tot_tps > 0  ? (($tot_tps - $suara_masuk_tps) / $tot_tps) * 100 : 100;
             return response()->json(['status'=>'success','messages'=>'success', "data" => $data], 200);
         } catch (QueryException $e) {
             return response()->json(['status'=>'error','messages'=> $e->errorInfo[2] ], 400);
