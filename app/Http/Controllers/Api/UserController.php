@@ -26,13 +26,21 @@ class UserController extends Controller
                 ->get();
         return Datatables::of($data)
         ->addIndexColumn()
+        ->editColumn("foto", function($row){
+            $res = "<ul class='list-inline'>";
+            $res .= "<li class='list-inline-item'>";
+            $res .= "<a target='_blank' href='".url('/')."/".$row->foto."'><img alt='".$row->nama."' class='table-avatar' style='max-width:50px' src='".url("/")."/".$row->foto."'></a>";
+            $res .= "</li>";
+            $res .= "</ul>";
+            return $res;
+        })
         ->addColumn('action', function($row){
             $btn = '<div class="btn-group"><a href="'.url("admin/users/edit").'/'.base64_encode($row->id).'" class="btn btn-primary btn-xs"><i class="fa fa-xs fa-edit"></i></a>';
             $btn .= '<a href="javascript:void(0)" onclick=\'hapus_data("'.base64_encode($row->id).'")\' class="btn btn-danger btn-xs"><i class="fa fa-xs fa-trash"></i></a></div>';
 
                 return $btn;
         })
-        ->rawColumns(['action'])
+        ->rawColumns(['action','foto'])
         ->make(true);
     }
 

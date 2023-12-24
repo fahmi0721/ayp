@@ -52,6 +52,7 @@
                             <th>Desa / Kelurahan</th>
                             <th>TPS</th>
                             <th>Alamat</th>
+                            <th>Foto</th>
                             <th width='5%'>Action</th>
                         </tr>
                     </thead>
@@ -89,6 +90,7 @@
                 { data: 'desa', name: 'desa' },
                 { data: 'tps', name: 'tps' },
                 { data: 'alamat', name: 'alamat' },
+                { data: 'foto', name: 'foto','searchable':false,"orderable": false },
                 { data: 'action', name: 'action',className: "text-center",'searchable':false,"orderable": false },
             ],
         });
