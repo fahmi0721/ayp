@@ -231,7 +231,13 @@ class SuaraController extends Controller
     public function show_notif($id_kab){
         try {
             $id_kabupaten = base64_decode($id_kab);
-            $res = DB::table($this->table)->select(DB::raw("COUNT(id) as tot"))
+            $res = DB::table($this->table)
+            ->join("m_kabupaten", $this->table.".id_kabupaten", "=","m_kabupaten.id")
+            ->join("m_kecamatan", $this->table.".id_kecamatan", "=","m_kecamatan.id")
+            ->join("m_desa", $this->table.".id_desa", "=","m_desa.id")
+            ->join("m_tps", $this->table.".id_tps", "=","m_tps.id")
+            ->join("m_kandidat", $this->table.".id_kandidat", "=","m_kandidat.id")
+            ->select(DB::raw("COUNT(id) as tot"))
             ->where("id_kabupaten",$id_kabupaten)
             ->where("status","waiting")->first();
             return response()->json(['status'=>'success','messages'=>'success','data' => $res], 200);
@@ -245,7 +251,13 @@ class SuaraController extends Controller
     public function show_notif_admin(){
         try {
             // $id_kabupaten = base64_decode($id_kab);
-            $res = DB::table($this->table)->select(DB::raw("COUNT(id) as tot"))
+            $res = DB::table($this->table)
+            ->join("m_kabupaten", $this->table.".id_kabupaten", "=","m_kabupaten.id")
+            ->join("m_kecamatan", $this->table.".id_kecamatan", "=","m_kecamatan.id")
+            ->join("m_desa", $this->table.".id_desa", "=","m_desa.id")
+            ->join("m_tps", $this->table.".id_tps", "=","m_tps.id")
+            ->join("m_kandidat", $this->table.".id_kandidat", "=","m_kandidat.id")
+            ->select(DB::raw("COUNT(id) as tot"))
             // ->where("id_kabupaten",$id_kabupaten)
             ->where("status","waiting")->first();
             return response()->json(['status'=>'success','messages'=>'success','data' => $res], 200);
