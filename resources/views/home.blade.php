@@ -54,7 +54,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-      @if(auth()->user()->level == "kabupaten")
+      
+      @if(auth()->user()->level == "kabupaten" || auth()->user()->level == "admin")
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown" id='box-notif'>
         <a class="nav-link" data-toggle="dropdown" href="#">
@@ -96,7 +97,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- Brand Logo -->
     <a href="#" class="brand-link bg-primary">
       <img src="{{ asset('dist/img/ayp.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3 " style="opacity: .8">
-      <span class="brand-text font-weight-light">AYP-CENTER</span>
+      <span class="brand-text font-weight-light">AYP-CENTER </span>
     </a>
 
     <!-- Sidebar -->
@@ -171,7 +172,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- AdminLTE App -->
 <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
  <!-- Histats.com  START  (aync)-->
-  <script type="text/javascript">var _Hasync= _Hasync|| [];
+  <!-- <script type="text/javascript">var _Hasync= _Hasync|| [];
   _Hasync.push(['Histats.start', '1,4832439,4,0,0,0,00010000']);
   _Hasync.push(['Histats.fasi', '1']);
   _Hasync.push(['Histats.track_hits', '']);
@@ -180,14 +181,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   hs.src = ('//s10.histats.com/js15_as.js');
   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
   })();</script>
-  <noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?4832439&101" alt="" border="0"></a></noscript>
+  <noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?4832439&101" alt="" border="0"></a></noscript> -->
   <!-- Histats.com  END  -->
 <!-- AdminLTE for demo purposes -->
 <!-- <script src="{{ asset('dist/js/demo.js') }}"></script> -->
 @yield("script")
 <script>
   $("[data-toggle='tooltip']").tooltip({position:top});
-  @if(auth()->user()->level == "kabupaten")
+  @if(auth()->user()->level == "kabupaten" || auth()->user()->level == "admin")
     load_notif();
   @endif
 
