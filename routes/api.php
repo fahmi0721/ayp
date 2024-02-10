@@ -117,8 +117,11 @@ Route::prefix('suara')->group(function () {
     Route::get('/desa/{id_desa}',[SuaraController::class, 'index_desa']);
     Route::get('/tps/{id_tps}',[SuaraController::class, 'index_tps']);
     Route::get('/get_approve/{id_kabupaten}',[SuaraController::class, 'show_approve']);
+    Route::get('/get_approved',[SuaraController::class, 'show_approve_admin']);
+   
     Route::get('/get_data/{id}',[SuaraController::class, 'show']);
     Route::get('/get_notif/{id_kab}',[SuaraController::class, 'show_notif']);
+    Route::get('/get_notif_admin',[SuaraController::class, 'show_notif_admin']);
     Route::post('/save',[SuaraController::class, 'store']);
     Route::put('/update',[SuaraController::class, 'update']);
     Route::put('/approve',[SuaraController::class, 'approve']);

@@ -55,10 +55,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       
-      @if(auth()->user()->level == "kabupaten" || auth()->user()->level == "admin")
+      @if(auth()->user()->level == "kabupaten")
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown" id='box-notif'>
-        <a class="nav-link" data-toggle="dropdown" href="#">
+        <a class="nav-link"  href="{{ url('kabupaten/suara/approve') }}">
           <i class="far fa-bell"></i>
           <span class="badge badge-warning navbar-badge"><span class='tot_notif'></span></span>
         </a>
@@ -70,6 +70,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </a>
           <div class="dropdown-divider"></div>
           <a href="{{ url('kabupaten/suara/approve') }}" class="dropdown-item dropdown-footer">See All Notifications</a>
+        </div>
+      </li>
+      @elseif(auth()->user()->level == "admin")
+        <!-- Notifications Dropdown Menu -->
+      <li class="nav-item dropdown" id='box-notif'>
+        <a class="nav-link"  href="{{ url('admin/suara/approve') }}">
+          <i class="far fa-bell"></i>
+          <span class="badge badge-warning navbar-badge"><span class='tot_notif'></span></span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <span class="dropdown-item dropdown-header"><span class='tot_notif'></span> Notifications</span>
+          <div class="dropdown-divider"></div>
+          <a href="{{ url('admin/suara/approve') }}" class="dropdown-item">
+            <i class="fas fa-envelope mr-2"></i> <span class='tot_notif'></span> new approval
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="{{ url('admin/suara/approve') }}" class="dropdown-item dropdown-footer">See All Notifications</a>
         </div>
       </li>
       @endif
@@ -188,13 +205,36 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 @yield("script")
 <script>
   $("[data-toggle='tooltip']").tooltip({position:top});
-  @if(auth()->user()->level == "kabupaten" || auth()->user()->level == "admin")
+  @if(auth()->user()->level == "kabupaten")
     load_notif();
+  @elseif(auth()->user()->level == "admin")
+    load_notif_admin();
   @endif
 
   function load_notif(){
     $.ajax({
       url : "{{ url('api/suara/get_notif') }}/{{ base64_encode(auth()->user()->id_kabupaten) }}",
+      type : "GET",
+      dataType: "json",
+      data : "input=[]",
+      success: function(res){
+        $(".tot_notif").html(res.data.tot);
+        if(parseInt(res.data.tot) > 0){
+          $("#box-notif").show();
+        }else{
+          $("#box-notif").hide();
+
+        }
+      },
+      error: function(er){
+        console.log(res);
+      }
+    })
+  }
+
+  function load_notif_admin(){
+    $.ajax({
+      url : "{{ url('api/suara/get_notif_admin') }}",
       type : "GET",
       dataType: "json",
       data : "input=[]",

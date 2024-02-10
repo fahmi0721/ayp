@@ -92,6 +92,9 @@ Route::prefix('admin')->middleware("auth")->group(function () {
 
     Route::prefix('suara')->group(function () {
         Route::get('/',[SuaraController::class, 'index']);
+        Route::get("/approve", function (){
+            return view("admin.suara.approve");
+        });
         Route::get('/tambah',[SuaraController::class, 'form_add']);
         Route::get('/edit/{id}',[SuaraController::class, 'form_edit']);
     });

@@ -9,7 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\File;
-
+use Auth;
 use DataTables;
 
 
@@ -189,7 +189,32 @@ class SuaraController extends Controller
         ->join("m_desa", $this->table.".id_desa", "=","m_desa.id")
         ->join("m_tps", $this->table.".id_tps", "=","m_tps.id")
         ->join("m_kandidat", $this->table.".id_kandidat", "=","m_kandidat.id")
-        ->select($this->table.".*",DB::raw("m_kabupaten.nama as kabupaten"),DB::raw("m_kecamatan.nama as kecamatan"),DB::raw("m_desa.nama as desa"),DB::raw("m_tps.nama as tps"),DB::raw("m_kandidat.nama as kandidat"))->where($this->table.".id_kabupaten",$id_kabupaten)->where($this->table.".status","waiting")
+        ->select($this->table.".*",DB::raw("m_kabupaten.nama as kabupaten"),DB::raw("m_kecamatan.nama as kecamatan"),DB::raw("m_desa.nama as desa"),DB::raw("m_tps.nama as tps"),DB::raw("m_kandidat.nama as kandidat"))
+        ->where($this->table.".id_kabupaten",$id_kabupaten)
+        ->where($this->table.".status","waiting")
+                ->get();
+        return Datatables::of($data)
+        ->addIndexColumn()
+        ->addColumn('action', function($row){
+            $btn = '<div class="btn-group"><a target="_blank" href="'.url($row->bukti).'" class="btn btn-primary btn-xs" data-toggle="tooltip" title="Lihat Bukti"><i class="fa fa-xs fa-file"></i></a>';
+            $btn .= '<a href="javascript:void(0)" onclick=\'update_status("'.base64_encode($row->id).'","valid")\' title="Setujui" data-toggle="tooltip" class="btn btn-success btn-xs"><i class="fa fa-xs fa-check"></i></a>';
+            $btn .= '<a href="javascript:void(0)" onclick=\'update_status("'.base64_encode($row->id).'","invalid")\' title="Batalkan" data-toggle="tooltip" class="btn btn-danger btn-xs"><i class="fa fa-xs fa-times"></i></a></div>';
+                return $btn;
+        })
+        ->rawColumns(['action'])
+        ->make(true);
+    }
+
+    public function show_approve_admin(){
+        $data = DB::table($this->table)
+        ->join("m_kabupaten", $this->table.".id_kabupaten", "=","m_kabupaten.id")
+        ->join("m_kecamatan", $this->table.".id_kecamatan", "=","m_kecamatan.id")
+        ->join("m_desa", $this->table.".id_desa", "=","m_desa.id")
+        ->join("m_tps", $this->table.".id_tps", "=","m_tps.id")
+        ->join("m_kandidat", $this->table.".id_kandidat", "=","m_kandidat.id")
+        ->select($this->table.".*",DB::raw("m_kabupaten.nama as kabupaten"),DB::raw("m_kecamatan.nama as kecamatan"),DB::raw("m_desa.nama as desa"),DB::raw("m_tps.nama as tps"),DB::raw("m_kandidat.nama as kandidat"))
+        // ->where($this->table.".id_kabupaten",$id_kabupaten)
+        ->where($this->table.".status","waiting")
                 ->get();
         return Datatables::of($data)
         ->addIndexColumn()
@@ -206,7 +231,23 @@ class SuaraController extends Controller
     public function show_notif($id_kab){
         try {
             $id_kabupaten = base64_decode($id_kab);
-            $res = DB::table($this->table)->select(DB::raw("COUNT(id) as tot"))->where("id_kabupaten",$id_kabupaten)->where("status","waiting")->first();
+            $res = DB::table($this->table)->select(DB::raw("COUNT(id) as tot"))
+            ->where("id_kabupaten",$id_kabupaten)
+            ->where("status","waiting")->first();
+            return response()->json(['status'=>'success','messages'=>'success','data' => $res], 200);
+        } catch(QueryException $e) { 
+            DB::rollback();
+            return response()->json(['status'=>'error','messages'=> $e->errorInfo[2] ], 400);
+        }
+
+    }
+
+    public function show_notif_admin(){
+        try {
+            // $id_kabupaten = base64_decode($id_kab);
+            $res = DB::table($this->table)->select(DB::raw("COUNT(id) as tot"))
+            // ->where("id_kabupaten",$id_kabupaten)
+            ->where("status","waiting")->first();
             return response()->json(['status'=>'success','messages'=>'success','data' => $res], 200);
         } catch(QueryException $e) { 
             DB::rollback();
