@@ -237,7 +237,7 @@ class SuaraController extends Controller
             ->join("m_desa", $this->table.".id_desa", "=","m_desa.id")
             ->join("m_tps", $this->table.".id_tps", "=","m_tps.id")
             ->join("m_kandidat", $this->table.".id_kandidat", "=","m_kandidat.id")
-            ->select(DB::raw("COUNT(id) as tot"))
+            ->select(DB::raw("COUNT(t_suara_tps.id) as tot"))
             ->where("id_kabupaten",$id_kabupaten)
             ->where("status","waiting")->first();
             return response()->json(['status'=>'success','messages'=>'success','data' => $res], 200);
@@ -257,7 +257,7 @@ class SuaraController extends Controller
             ->join("m_desa", $this->table.".id_desa", "=","m_desa.id")
             ->join("m_tps", $this->table.".id_tps", "=","m_tps.id")
             ->join("m_kandidat", $this->table.".id_kandidat", "=","m_kandidat.id")
-            ->select(DB::raw("COUNT(id) as tot"))
+            ->select(DB::raw("COUNT(t_suara_tps.id) as tot"))
             // ->where("id_kabupaten",$id_kabupaten)
             ->where("status","waiting")->first();
             return response()->json(['status'=>'success','messages'=>'success','data' => $res], 200);
